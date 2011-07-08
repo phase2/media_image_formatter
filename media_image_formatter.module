@@ -1,0 +1,38 @@
+<?php
+/**
+ * Implements hook_field_formatter_info().
+ */
+function media_image_formatter_field_formatter_info() {
+  $formatters = array(
+    'image' => array(
+      'label' => t('Image'),
+      'field types' => array('media'),
+      'settings' => array('image_style' => '', 'image_link' => ''),
+    ),
+  );
+  return $formatters;
+}
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function media_image_formatter_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  return image_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
+}
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function media_image_formatter_field_formatter_settings_summary($field, $instance, $view_mode) {
+  return image_field_formatter_settings_summary($field, $instance, $view_mode);
+}
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * we need to change the items to match the image fields
+ */
+function media_image_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+
+  foreach ($items as $delta => $item) {
+    $items[$delta] = (array) $item['file'];
+  }
+  return image_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display);
+}
