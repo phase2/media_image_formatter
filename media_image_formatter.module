@@ -32,7 +32,12 @@ function media_image_formatter_field_formatter_settings_summary($field, $instanc
 function media_image_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
 
   foreach ($items as $delta => $item) {
-    $items[$delta] = (array) $item['file'];
+    if(isset($item['file'])) {
+      $items[$delta] = (array) $item['file'];
+      $items[$delta]['alt'] = '';
+      $items[$delta]['title'] = '';
+      
+    }
   }
   return image_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display);
 }
